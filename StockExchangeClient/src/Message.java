@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Created by Egor Tamarin on 26-Mar-17.
  * This class handles messages, both incoming and outgoing.
@@ -5,7 +7,7 @@
 public class Message {
     private String msgToValidate;
     private String msgToSend;
-    private String[] possibleHeaders = {"SELL","BUY","INFO"};
+    private String[] possibleHeaders = {"SELL","BUY","INFO","STKI"};
     public Message(){
     }
     public Message(String message){
@@ -16,7 +18,7 @@ public class Message {
         String msg = "AUTH/"+lo+":"+pw+"\r\n";
         return msg;
     }
-    public void constructMessage(){
+    public void constructMessage(){ // constructing the message
         String[] splitMessage = this.msgToValidate.split(" ");
         for (String header:possibleHeaders){ // check header validity
             if (splitMessage[0].toUpperCase().equals(header)){ // if valid
@@ -41,6 +43,8 @@ public class Message {
                     case "INFO":
                         msgToSend += "/0\r\n";
                         break;
+                    case "STKI":
+                        msgToSend += "/0\r\n";
                     default:
                         msgToSend = "invalid";
                         break;
@@ -48,7 +52,7 @@ public class Message {
             }
         }
     }
-    public void analyzeMessage(String message){
+    public void analyzeMessage(ArrayList<String> replyMessage){
 
     }
     public String getMsgToSend(){
