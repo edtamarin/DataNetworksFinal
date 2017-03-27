@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -29,7 +30,7 @@ public class SE_Client {
         System.out.println("Type 'help' for help.\n");
         String userIn;
         String systemResponse;
-        String serverResponse = "";
+        ArrayList<String> serverResponse = new ArrayList<>();
         while (true){
             userIn = pollUser(">>");
             Message userRequest = new Message(userIn);
@@ -40,9 +41,10 @@ public class SE_Client {
                     System.out.println("Message is invalid and will not be sent. Try again.");
                     break;
                 default:
-                    Communication comms = new Communication(address,port);
                     try {
-                        serverResponse = comms.sendMessage(userRequest);
+                        Communication comms = new Communication(address,port);
+                        comms.sendMessage(userRequest);
+                        comms.receiveMessage();
                     }catch (Exception e){
                         e.printStackTrace();
                     }
