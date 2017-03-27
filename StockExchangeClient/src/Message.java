@@ -48,6 +48,9 @@ public class Message {
             }
         }
     }
+    public void analyzeMessage(String message){
+
+    }
     public String getMsgToSend(){
         return this.msgToSend;
     }

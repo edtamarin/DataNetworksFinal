@@ -14,11 +14,12 @@ public class Communication {
         this.port = po;
     }
     public String sendMessage(Message m) throws Exception{
-        Socket commSocket = new Socket(addr,port);
+        Socket commSocket = new Socket(this.address,this.port);
         DataOutputStream outToServer = new DataOutputStream(commSocket.getOutputStream());
         BufferedReader inFromServer = new BufferedReader(
                 new InputStreamReader(commSocket.getInputStream()));
         outToServer.writeBytes(m.getMsgToSend());
-        response = inFromServer.readLine();
+        String response = inFromServer.readLine();
+        return response;
     }
 }

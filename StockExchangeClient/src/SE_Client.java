@@ -29,7 +29,7 @@ public class SE_Client {
         System.out.println("Type 'help' for help.\n");
         String userIn;
         String systemResponse;
-        String serverResponse;
+        String serverResponse = "";
         while (true){
             userIn = pollUser(">>");
             Message userRequest = new Message(userIn);
@@ -48,6 +48,8 @@ public class SE_Client {
                     }
                     break;
             }
+            // analyze the server response
+            userRequest.analyzeMessage(serverResponse);
         }
     }
     private static String pollUser(String prompt){
