@@ -6,10 +6,12 @@ import java.util.Scanner;
  * The main class for the stock exchange client.
  */
 public class SE_Client {
-    static boolean clientToken = false;
+    static boolean clientToken = true;
     final static String address = "localhost";
     final static int port = 8000;
+    private static boolean running = true;
     public static void main(String args[]){
+        // welcoming users
         System.out.println("Welcome to the Saxion Stock Exchange.");
         System.out.println("Please log in to proceed.");
         while (!clientToken) { //run login until correct
@@ -27,29 +29,48 @@ public class SE_Client {
         System.out.println("Type 'help' for help.\n");
         String userIn;
         String systemResponse;
+        Communication comms = new Communication();
         ArrayList<String> serverResponse = new ArrayList<>();
-        while (true){
+        while (running){
             userIn = pollUser(">>");
-            Message userRequest = new Message(userIn);
-            userRequest.constructMessage();
-            systemResponse = userRequest.getMsgToSend();
-            switch(systemResponse){
-                case "invalid":
-                    System.out.println("Message is invalid and will not be sent. Try again.");
+            switch (userIn.toUpperCase()) {
+                case "HELP":
+                    System.out.println("The program supports the following commands:");
+                    System.out.println("buy <stockName> <quantity>");
+                    System.out.println("sell <stockName> <quantity> <price>");
+                    System.out.println("dpst <amount> - deposits money");
+                    System.out.println("info - returns user info");
+                    System.out.println("stki - returns stock info");
+                    break;
+                case "EXIT":
+                    running =! running;
                     break;
                 default:
-                    try {
-                        Communication comms = new Communication(address,port);
-                        comms.sendMessage(userRequest);
-                        serverResponse = comms.receiveMessage();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    break;
+                Message userRequest = new Message(userIn);
+                userRequest.constructMessage();
+                systemResponse = userRequest.getMsgToSend();
+                switch (systemResponse) {
+                    case "invalid":
+                        System.out.println("Message is invalid and will not be sent. Try again.");
+                        break;
+                    default:
+                        try {
+                            comms.createSocket(address,port);
+                            comms.sendMessage(userRequest);
+                            serverResponse = comms.receiveMessage();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+                // analyze the server response
+                // the response code is still being returned but should be used mainly for debugging
+                userRequest.analyzeMessage(serverResponse);
+                break;
             }
-            // analyze the server response
-            userRequest.analyzeMessage(serverResponse);
         }
+        comms.terminate();
+        System.out.println("Closing the connection");
     }
     private static String pollUser(String prompt){
         Scanner userInput = new Scanner(System.in);

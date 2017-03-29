@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -11,10 +12,16 @@ public class Communication {
     private String address;
     private int port;
     private Socket commSocket;
+    public Communication(){
+
+    }
     public Communication(String addr, int po) throws Exception{
         this.address = addr;
         this.port = po;
-        commSocket = new Socket(this.address,this.port);
+        this.commSocket = new Socket(this.address,this.port);
+    }
+    public void createSocket(String addr, int po) throws Exception{
+        this.commSocket = new Socket(addr,po);
     }
     public void sendMessage(Message m) throws Exception{ // sends what is fed to the method
         DataOutputStream outToServer = new DataOutputStream(commSocket.getOutputStream());
@@ -32,5 +39,12 @@ public class Communication {
             serverReply.add(response);
         }while(!(splitString[1].equals("-")));
         return serverReply;
+    }
+    public void terminate(){
+        try {
+            this.commSocket.close();
+        }catch(IOException e){
+            System.out.println("Unable to close socket");
+        }
     }
 }

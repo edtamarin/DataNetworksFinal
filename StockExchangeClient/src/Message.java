@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Message {
     private String msgToValidate;
     private String msgToSend;
-    private String[] possibleHeaders = {"SELL","BUY","INFO","STKI"};
+    private String[] possibleHeaders = {"SELL","BUY","INFO","STKI","DPST"};
     public Message(){
         this.msgToSend = "";
     }
@@ -21,23 +21,30 @@ public class Message {
     }
     public void constructMessage(){ // constructing the message
         String[] splitMessage = this.msgToValidate.split(" ");
-        for (String header:possibleHeaders){ // check header validity
-            if (splitMessage[0].toUpperCase().equals(header)){ // if valid
+        boolean isValid = false;
+        int validIndex = 0;
+        for (int i = 0; i<possibleHeaders.length; i++){
+            if (splitMessage[0].toUpperCase().equals(possibleHeaders[i])){
+                isValid = true;
+                validIndex = i;
+            }
+        }
+            if (isValid){ // if valid
                 this.msgToSend = splitMessage[0].toUpperCase(); // add to message
                 switch(this.msgToSend){ // depending on header construct a message
                     case "SELL": // sell message
-                        if (!(splitMessage.length <=3)){
+                        if ((splitMessage.length ==3)){
                             this.msgToSend += "/"+splitMessage[1];
                             if (tryParseInt(splitMessage[2])){
-                                this.msgToSend += ":"+splitMessage[2]+"\r\n";
+                                this.msgToSend+=":"+splitMessage[2]+"\r\n";
                             }
                         }
                         break;
                     case "BUY": // buy message, payload identical to SELL
-                        if (!(splitMessage.length <=3)){
+                        if ((splitMessage.length ==3)){
                             this.msgToSend += "/"+splitMessage[1];
                             if (tryParseInt(splitMessage[2])){
-                                this.msgToSend += ":"+splitMessage[2]+"\r\n";
+                                this.msgToSend+=":"+splitMessage[2]+"\r\n";
                             }
                         }
                         break;
@@ -47,19 +54,19 @@ public class Message {
                     case "STKI":
                         this.msgToSend += "/0\r\n";
                         break;
-                    case "DEPT":
-                        if (!(splitMessage.length <=2)){
+                    case "DPST":
+                        if ((splitMessage.length ==2)){
                             if (tryParseInt(splitMessage[1])){
                                 this.msgToSend += "/"+splitMessage[1]+"\r\n";
                             }
                         }
                         break;
                     default:
-                        this.msgToSend = "invalid";
                         break;
                 }
+            }else{
+                this.msgToSend = "invalid";
             }
-        }
     }
     public int analyzeMessage(ArrayList<String> replyMessage){
         //here we try to analyze what the server replied with
@@ -74,7 +81,7 @@ public class Message {
                     responseCode = 111;
                     break;
                 case "102": // SELL fail
-                    if (!(splitMessage.length == 3)){
+                    if ((splitMessage.length == 3)){
                         if (splitMessage[2].equals("SNF")){ // check error codes
                             System.out.println("Stocks not found.");
                         }else if (splitMessage[2].equals("RTL")){
@@ -86,7 +93,7 @@ public class Message {
                     responseCode = 112;
                     break;
                 case "103": // BUY fail
-                    if (!(splitMessage.length == 3)){
+                    if ((splitMessage.length == 3)){
                         if (splitMessage[2].equals("SNF")){ // check error codes
                             System.out.println("Stocks not found.");
                         }else if (splitMessage[2].equals("RTL")){
@@ -116,7 +123,7 @@ public class Message {
                     responseCode = 211;
                     break;
                 case "202": // SELL success
-                    if (!(splitMessage.length == 3)){
+                    if ((splitMessage.length == 3)){
                         splitData = splitMessage[2].split(":");
                         System.out.println(splitData[1]+" stocks of "+splitData[0]+ " were placed on the market.");
                         System.out.println("Expected profit: "+splitData[2]);
@@ -125,7 +132,7 @@ public class Message {
                     }
                     break;
                 case "203": // BUY success
-                    if (!(splitMessage.length == 3)){
+                    if ((splitMessage.length == 3)){
                         splitData = splitMessage[2].split(":");
                         System.out.println(splitData[1]+" stocks of "+splitData[0]+ " were bought.");
                         System.out.println("Balance: "+splitData[2]);
@@ -134,7 +141,7 @@ public class Message {
                     }
                     break;
                 case "204": //INFO success
-                    if (!(splitMessage.length == 3)){
+                    if ((splitMessage.length == 3)){
                         splitData = splitMessage[2].split(":");
                         System.out.println("You have "+splitData[1]+" stocks of "+splitData[0]);
                     }else{
@@ -144,7 +151,7 @@ public class Message {
                 case "205": //STKI success
                     break;
                 case "206": //DEPT success
-                    if (!(splitMessage.length == 3)){
+                    if ((splitMessage.length == 3)){
                         System.out.println("Your account balance is now " + splitMessage[3] + " EUR.");
                     }else{
                         System.out.println("SELL success reply not recognized");

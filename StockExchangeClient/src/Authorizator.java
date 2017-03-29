@@ -24,6 +24,7 @@ public class Authorizator {
         authMsg.authMessage(this.login,this.password);
         authComm.sendMessage(authMsg);
         response = authComm.receiveMessage();
+        authComm.terminate();
         if (authMsg.analyzeMessage(response) == 211){
             return true;
         }else{
