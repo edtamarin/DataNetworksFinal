@@ -2,7 +2,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Created by Egor Tamarin on 26-Mar-17.
@@ -16,15 +18,13 @@ public class Authorizator {
         this.password = pw;
     }
     public boolean authorizeUser(String addr, int port) throws Exception{
-        String response;
+        ArrayList<String> response;
         Message authMsg = new Message();
-        Socket authSocket = new Socket(addr,port);
-        DataOutputStream outToServer = new DataOutputStream(authSocket.getOutputStream());
-        BufferedReader inFromServer = new BufferedReader(
-                new InputStreamReader(authSocket.getInputStream()));
-        outToServer.writeBytes(authMsg.authMessage(this.login,this.password));
-        response = inFromServer.readLine();
-        if (response == ""){
+        Communication authComm = new Communication(addr,port);
+        authMsg.authMessage(this.login,this.password);
+        authComm.sendMessage(authMsg);
+        response = authComm.receiveMessage();
+        if (authMsg.analyzeMessage(response) == 211){
             return true;
         }else{
             return false;

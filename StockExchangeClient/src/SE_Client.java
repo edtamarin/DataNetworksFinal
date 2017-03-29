@@ -21,9 +21,6 @@ public class SE_Client {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (!clientToken) {
-                System.out.println("Authorization failed. Try again.");
-            }
         }
         // now that we've logged in, we can do everything else
         System.out.println("Authorization successful.");
@@ -44,7 +41,7 @@ public class SE_Client {
                     try {
                         Communication comms = new Communication(address,port);
                         comms.sendMessage(userRequest);
-                        comms.receiveMessage();
+                        serverResponse = comms.receiveMessage();
                     }catch (Exception e){
                         e.printStackTrace();
                     }
