@@ -58,6 +58,7 @@ public class SE_Client {
                             comms.createSocket(address,port);
                             comms.sendMessage(userRequest);
                             serverResponse = comms.receiveMessage();
+                            userRequest.analyzeMessage(serverResponse);s
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -65,7 +66,6 @@ public class SE_Client {
                 }
                 // analyze the server response
                 // the response code is still being returned but should be used mainly for debugging
-                userRequest.analyzeMessage(serverResponse);
                 break;
             }
         }

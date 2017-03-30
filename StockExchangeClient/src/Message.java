@@ -164,6 +164,9 @@ public class Message {
         }
         return responseCode;
     }
+    public void clear(){
+        this.msgToSend = "";
+    }
     public String getMsgToSend(){
         return this.msgToSend;
     }
