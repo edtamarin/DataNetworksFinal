@@ -33,8 +33,8 @@ public class Communication {
         ArrayList<String> serverReply = new ArrayList<>();
         BufferedReader inFromServer = new BufferedReader( // input
                 new InputStreamReader(commSocket.getInputStream()));
-        response = inFromServer.readLine();
-        do{ // since we do not know id 1 message or more, loop until flag says so
+        do{ // since we do not know if 1 message or more, loop until flag says so
+            response = inFromServer.readLine();
             splitString = response.split("/");
             serverReply.add(response);
         }while(!(splitString[1].equals("-")));

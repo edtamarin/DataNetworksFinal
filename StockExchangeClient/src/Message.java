@@ -52,7 +52,9 @@ public class Message {
                         this.msgToSend += "/0\r\n";
                         break;
                     case "STKI":
-                        this.msgToSend += "/0\r\n";
+                        if ((splitMessage.length ==2)){
+                                this.msgToSend += "/"+splitMessage[1]+"\r\n";
+                        }
                         break;
                     case "DPST":
                         if ((splitMessage.length ==2)){
@@ -73,11 +75,19 @@ public class Message {
         int responseCode = 0;
         String[] splitMessage;
         String[] splitData;
-        for (String message:replyMessage){
-            splitMessage = message.split("/");
+        for (String message:replyMessage){ // for each server reply
+            splitMessage = message.split("/"); // split the response for processing
             switch (splitMessage[0]){
                 case "101": // AUTH fail
-                    System.out.println("Authorization failed. Try again.");
+                    if ((splitMessage.length == 3)){
+                        if (splitMessage[2].equals("RNV")){
+                            System.out.println("The AUTH request is invalid.");
+                        }else{
+                            System.out.println("Authorization failed. Try again.");
+                        }
+                    }else{
+                        System.out.println("AUTH fail reply not recognized");
+                    }
                     responseCode = 111;
                     break;
                 case "102": // SELL fail
@@ -85,7 +95,9 @@ public class Message {
                         if (splitMessage[2].equals("SNF")){ // check error codes
                             System.out.println("Stocks not found.");
                         }else if (splitMessage[2].equals("RTL")){
-                            System.out.println("You don;t have enough stocks.");
+                            System.out.println("You don't have enough stocks.");
+                        }else if (splitMessage[2].equals("RNV")){
+                            System.out.println("The SELL request is invalid.");
                         }
                     }else{
                         System.out.println("SELL fail reply not recognized");
@@ -100,6 +112,8 @@ public class Message {
                             System.out.println("There's not enough stocks on the market.");
                         }else if (splitMessage[2].equals("NEF")){
                             System.out.println("You don't have enough funds.");
+                        }else if (splitMessage[2].equals("RNV")){
+                            System.out.println("The BUY request is invalid.");
                         }
                     }else{
                         System.out.println("BUY fail reply not recognized");
@@ -107,15 +121,39 @@ public class Message {
                     responseCode = 113;
                     break;
                 case "104": //INFO fail
-                    System.out.println("Unable to retrieve information.");
+                    if ((splitMessage.length == 3)){
+                        if (splitMessage[2].equals("RNV")){
+                            System.out.println("The INFO request is invalid.");
+                        }else{
+                            System.out.println("Unable to retrieve information.");
+                        }
+                    }else{
+                        System.out.println("INFO fail reply not recognized");
+                    }
                     responseCode = 114;
                     break;
                 case "105": //STKI fail
-                    System.out.println("Can't retrieve market information.");
+                    if ((splitMessage.length == 3)){
+                        if (splitMessage[2].equals("RNV")){
+                            System.out.println("The STKI request is invalid.");
+                        }else{
+                            System.out.println("Can't retrieve market information.");
+                        }
+                    }else{
+                        System.out.println("STKI fail reply not recognized");
+                    }
                     responseCode = 115;
                     break;
-                case "106": //DEPT fail
-                    System.out.println("Can't deposit money. Try again later.");
+                case "106": //DPST fail
+                    if ((splitMessage.length == 3)){
+                        if (splitMessage[2].equals("RNV")){
+                            System.out.println("The DPST request is invalid.");
+                        }else{
+                            System.out.println("Can't deposit money. Try again later.");
+                        }
+                    }else{
+                        System.out.println("DPST fail reply not recognized");
+                    }
                     responseCode = 116;
                     break;
                 case "201": // AUTH success
@@ -149,6 +187,13 @@ public class Message {
                     }
                     break;
                 case "205": //STKI success
+                    if ((splitMessage.length == 3)){
+                        splitData = splitMessage[2].split(":");
+                        System.out.println(splitData[0] + " has " + splitData[1] + " at" +
+                                " selling price " + splitData[2]);
+                    }else{
+                        System.out.println("INFO success reply not recognized");
+                    }
                     break;
                 case "206": //DEPT success
                     if ((splitMessage.length == 3)){

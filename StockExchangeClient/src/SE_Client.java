@@ -58,7 +58,7 @@ public class SE_Client {
                             comms.createSocket(address,port);
                             comms.sendMessage(userRequest);
                             serverResponse = comms.receiveMessage();
-                            userRequest.analyzeMessage(serverResponse);s
+                            userRequest.analyzeMessage(serverResponse);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
