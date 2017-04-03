@@ -19,7 +19,7 @@ public class Message {
         String msg = "AUTH/"+lo+":"+pw+"\r\n";
         this.msgToSend = msg;
     }
-    public void constructMessage(){ // constructing the message
+    public void constructMessage(String uName){ // constructing the message
         String[] splitMessage = this.msgToValidate.split(" ");
         boolean isValid = false;
         int validIndex = 0;
@@ -33,10 +33,13 @@ public class Message {
                 this.msgToSend = splitMessage[0].toUpperCase(); // add to message
                 switch(this.msgToSend){ // depending on header construct a message
                     case "SELL": // sell message
-                        if ((splitMessage.length ==3)){
+                        if ((splitMessage.length ==4)){
                             this.msgToSend += "/"+splitMessage[1];
                             if (tryParseInt(splitMessage[2])){
-                                this.msgToSend+=":"+splitMessage[2]+"\r\n";
+                                this.msgToSend+=":"+splitMessage[2];
+                            }
+                            if (isNumeric(splitMessage[3])){
+                                this.msgToSend+=":"+splitMessage[3]+"\r\n";
                             }
                         }
                         break;
@@ -49,7 +52,7 @@ public class Message {
                         }
                         break;
                     case "INFO":
-                        this.msgToSend += "/0\r\n";
+                            this.msgToSend += "/"+uName+"\r\n";
                         break;
                     case "STKI":
                         if ((splitMessage.length ==2)){
@@ -80,10 +83,8 @@ public class Message {
             switch (splitMessage[0]){
                 case "101": // AUTH fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("RNV")){
-                            System.out.println("The AUTH request is invalid.");
-                        }else{
-                            System.out.println("Authorization failed. Try again.");
+                        if (splitMessage[2].equals("ERROR")){ // check error codes
+                            System.out.println("Authorization failed.");
                         }
                     }else{
                         System.out.println("AUTH fail reply not recognized");
@@ -92,12 +93,8 @@ public class Message {
                     break;
                 case "102": // SELL fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("SNF")){ // check error codes
-                            System.out.println("Stocks not found.");
-                        }else if (splitMessage[2].equals("RTL")){
-                            System.out.println("You don't have enough stocks.");
-                        }else if (splitMessage[2].equals("RNV")){
-                            System.out.println("The SELL request is invalid.");
+                        if (splitMessage[2].equals("ERROR")){ // check error codes
+                            System.out.println("You might not have enough stocks or there are no such stocks. INFO for info.");
                         }
                     }else{
                         System.out.println("SELL fail reply not recognized");
@@ -106,14 +103,8 @@ public class Message {
                     break;
                 case "103": // BUY fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("SNF")){ // check error codes
-                            System.out.println("Stocks not found.");
-                        }else if (splitMessage[2].equals("RTL")){
-                            System.out.println("There's not enough stocks on the market.");
-                        }else if (splitMessage[2].equals("NEF")){
-                            System.out.println("You don't have enough funds.");
-                        }else if (splitMessage[2].equals("RNV")){
-                            System.out.println("The BUY request is invalid.");
+                        if (splitMessage[2].equals("ERROR")){ // check error codes
+                            System.out.println("You might not have enough money or there are no such stocks. INFO for info.");
                         }
                     }else{
                         System.out.println("BUY fail reply not recognized");
@@ -122,10 +113,8 @@ public class Message {
                     break;
                 case "104": //INFO fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("RNV")){
-                            System.out.println("The INFO request is invalid.");
-                        }else{
-                            System.out.println("Unable to retrieve information.");
+                        if (splitMessage[2].equals("ERROR")){ // check error codes
+                            System.out.println("Something went wrong.");
                         }
                     }else{
                         System.out.println("INFO fail reply not recognized");
@@ -134,10 +123,8 @@ public class Message {
                     break;
                 case "105": //STKI fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("RNV")){
-                            System.out.println("The STKI request is invalid.");
-                        }else{
-                            System.out.println("Can't retrieve market information.");
+                        if (splitMessage[2].equals("ERROR")){ // check error codes
+                            System.out.println("There is probably no such stock.");
                         }
                     }else{
                         System.out.println("STKI fail reply not recognized");
@@ -146,10 +133,8 @@ public class Message {
                     break;
                 case "106": //DPST fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("RNV")){
-                            System.out.println("The DPST request is invalid.");
-                        }else{
-                            System.out.println("Can't deposit money. Try again later.");
+                        if (splitMessage[2].equals("ERROR")){ // check error codes
+                            System.out.println("Operation failed. Try again later.");
                         }
                     }else{
                         System.out.println("DPST fail reply not recognized");
@@ -209,8 +194,8 @@ public class Message {
         }
         return responseCode;
     }
-    public void clear(){
-        this.msgToSend = "";
+    public boolean isNumeric(String s) {
+        return s.matches("[-+]?\\d*\\.?\\d+");
     }
     public String getMsgToSend(){
         return this.msgToSend;

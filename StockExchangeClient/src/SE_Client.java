@@ -6,12 +6,13 @@ import java.util.Scanner;
  * The main class for the stock exchange client.
  */
 public class SE_Client {
-    static boolean clientToken = true;
+    static boolean clientToken = false;
     final static String address = "localhost";
     final static int port = 8000;
     private static boolean running = true;
     public static void main(String args[]){
         // welcoming users
+        String username = "";
         System.out.println("Welcome to the Saxion Stock Exchange.");
         System.out.println("Please log in to proceed.");
         while (!clientToken) { //run login until correct
@@ -23,9 +24,10 @@ public class SE_Client {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            username = auth.getLogin();
         }
         // now that we've logged in, we can do everything else
-        System.out.println("Authorization successful.");
+        System.out.println("Welcome, " + username);
         System.out.println("Type 'help' for help.\n");
         String userIn;
         String systemResponse;
@@ -39,15 +41,15 @@ public class SE_Client {
                     System.out.println("buy <stockName> <quantity>");
                     System.out.println("sell <stockName> <quantity> <price>");
                     System.out.println("dpst <amount> - deposits money");
-                    System.out.println("info - returns user info");
-                    System.out.println("stki - returns stock info");
+                    System.out.println("info <username> - returns user info");
+                    System.out.println("stki <stock>- returns stock info");
                     break;
                 case "EXIT":
                     running =! running;
                     break;
                 default:
                 Message userRequest = new Message(userIn);
-                userRequest.constructMessage();
+                userRequest.constructMessage(username);
                 systemResponse = userRequest.getMsgToSend();
                 switch (systemResponse) {
                     case "invalid":

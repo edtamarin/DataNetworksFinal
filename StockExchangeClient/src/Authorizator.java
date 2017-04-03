@@ -17,6 +17,11 @@ public class Authorizator {
         this.login = lo;
         this.password = pw;
     }
+
+    public String getLogin() {
+        return login;
+    }
+
     public boolean authorizeUser(String addr, int port) throws Exception{
         ArrayList<String> response;
         Message authMsg = new Message();
