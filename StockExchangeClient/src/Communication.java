@@ -40,7 +40,7 @@ public class Communication {
         }while(!(splitString[1].equals("-")));
         return serverReply;
     }
-    public void terminate(){
+    public void terminate(){ // closes connection
         try {
             this.commSocket.close();
         }catch(IOException e){

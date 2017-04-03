@@ -18,22 +18,22 @@ public class Authorizator {
         this.password = pw;
     }
 
-    public String getLogin() {
+    public String getLogin() { // getter
         return login;
     }
 
-    public boolean authorizeUser(String addr, int port) throws Exception{
+    public boolean authorizeUser(String addr, int port) throws Exception{ // authorizing
         ArrayList<String> response;
         Message authMsg = new Message();
-        Communication authComm = new Communication(addr,port);
-        authMsg.authMessage(this.login,this.password);
-        authComm.sendMessage(authMsg);
-        response = authComm.receiveMessage();
-        authComm.terminate();
-        if (authMsg.analyzeMessage(response) == 211){
-            return true;
-        }else{
-            return false;
+        Communication authComm = new Communication(addr,port); // open TCP connection
+        authMsg.authMessage(this.login,this.password); // create an auth message
+        authComm.sendMessage(authMsg); // send it
+        response = authComm.receiveMessage(); // receive response
+        authComm.terminate(); // close connection
+        if (authMsg.analyzeMessage(response) == 211){ // if response code OK
+            return true; // auth user
+        }else{ // if not
+            return false; // tell user to try again.
         }
     }
 }

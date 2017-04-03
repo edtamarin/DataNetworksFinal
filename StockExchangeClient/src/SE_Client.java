@@ -33,10 +33,10 @@ public class SE_Client {
         String systemResponse;
         Communication comms = new Communication();
         ArrayList<String> serverResponse = new ArrayList<>();
-        while (running){
+        while (running){ // runs forever, polls user
             userIn = pollUser(">>");
-            switch (userIn.toUpperCase()) {
-                case "HELP":
+            switch (userIn.toUpperCase()) { // user input selection
+                case "HELP": // help prompt
                     System.out.println("The program supports the following commands:");
                     System.out.println("buy <stockName> <quantity>");
                     System.out.println("sell <stockName> <quantity> <price>");
@@ -44,23 +44,23 @@ public class SE_Client {
                     System.out.println("info <username> - returns user info");
                     System.out.println("stki <stock>- returns stock info");
                     break;
-                case "EXIT":
+                case "EXIT": // quits loop
                     running =! running;
                     break;
                 default:
-                Message userRequest = new Message(userIn);
-                userRequest.constructMessage(username);
-                systemResponse = userRequest.getMsgToSend();
+                Message userRequest = new Message(userIn); // create a message
+                userRequest.constructMessage(username); // construct a message based on user input
+                systemResponse = userRequest.getMsgToSend(); // see if it was correct or not
                 switch (systemResponse) {
-                    case "invalid":
+                    case "invalid": // command not recognized
                         System.out.println("Message is invalid and will not be sent. Try again.");
                         break;
-                    default:
+                    default: // command recognized
                         try {
-                            comms.createSocket(address,port);
-                            comms.sendMessage(userRequest);
-                            serverResponse = comms.receiveMessage();
-                            userRequest.analyzeMessage(serverResponse);
+                            comms.createSocket(address,port); // open TCP connection
+                            comms.sendMessage(userRequest); // send message
+                            serverResponse = comms.receiveMessage(); // receive message
+                            userRequest.analyzeMessage(serverResponse); // analyze it
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -71,10 +71,10 @@ public class SE_Client {
                 break;
             }
         }
-        comms.terminate();
+        comms.terminate(); // close TCP connection
         System.out.println("Closing the connection");
     }
-    private static String pollUser(String prompt){
+    private static String pollUser(String prompt){ // polls the user
         Scanner userInput = new Scanner(System.in);
         String userResponse;
         System.out.print(prompt);
