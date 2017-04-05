@@ -16,7 +16,7 @@
       <file leaf-file-name="SE_Client.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/SE_Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1781">
+            <state relative-caret-position="3000">
               <caret line="76" column="68" lean-forward="false" selection-start-line="76" selection-start-column="68" selection-end-line="76" selection-end-column="68" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -28,8 +28,8 @@
       <file leaf-file-name="Message.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Message.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="175" column="32" lean-forward="true" selection-start-line="175" selection-start-column="32" selection-end-line="175" selection-end-column="32" />
+            <state relative-caret-position="901">
+              <caret line="183" column="90" lean-forward="false" selection-start-line="183" selection-start-column="90" selection-end-line="183" selection-end-column="90" />
               <folding />
             </state>
           </provider>
@@ -83,9 +83,9 @@
       <list>
         <option value="$PROJECT_DIR$/src/StockExchangeClient.java" />
         <option value="$PROJECT_DIR$/src/SE_Client.java" />
-        <option value="$PROJECT_DIR$/src/Message.java" />
         <option value="$PROJECT_DIR$/src/Communication.java" />
         <option value="$PROJECT_DIR$/src/Authorizator.java" />
+        <option value="$PROJECT_DIR$/src/Message.java" />
       </list>
     </option>
   </component>
@@ -116,9 +116,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -147,6 +146,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -602,11 +602,12 @@
       <workItem from="1491237745571" duration="4685000" />
       <workItem from="1491243272784" duration="654000" />
       <workItem from="1491243981667" duration="25000" />
+      <workItem from="1491322527553" duration="2090000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29789000" />
+    <option name="totallyTimeSpent" value="31879000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-16" y="-16" width="3232" height="1732" extended-state="6" />
@@ -665,6 +666,36 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/Communication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1680">
+          <caret line="42" column="49" lean-forward="false" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Authorizator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="35" column="52" lean-forward="false" selection-start-line="35" selection-start-column="52" selection-end-line="35" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#573#574#0" expanded="true" />
+            <element signature="e#611#612#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7000">
+          <caret line="175" column="32" lean-forward="true" selection-start-line="175" selection-start-column="32" selection-end-line="175" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/SE_Client.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3000">
@@ -1120,7 +1151,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SE_Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1781">
+        <state relative-caret-position="3000">
           <caret line="76" column="68" lean-forward="false" selection-start-line="76" selection-start-column="68" selection-end-line="76" selection-end-column="68" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1130,8 +1161,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Message.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="175" column="32" lean-forward="true" selection-start-line="175" selection-start-column="32" selection-end-line="175" selection-end-column="32" />
+        <state relative-caret-position="901">
+          <caret line="183" column="90" lean-forward="false" selection-start-line="183" selection-start-column="90" selection-end-line="183" selection-end-column="90" />
           <folding />
         </state>
       </provider>

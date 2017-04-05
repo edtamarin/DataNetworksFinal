@@ -147,18 +147,16 @@ public class Message {
                     break;
                 case "202": // SELL success
                     if ((splitMessage.length == 3)){
-                        splitData = splitMessage[2].split(":");
-                        System.out.println(splitData[1]+" stocks of "+splitData[0]+ " were placed on the market.");
-                        System.out.println("Expected profit: "+splitData[2]);
+                        System.out.println("Request approved.");
+                        System.out.println("Expected profit: "+ splitMessage[2]);
                     }else{
                         System.out.println("SELL success reply not recognized");
                     }
                     break;
                 case "203": // BUY success
                     if ((splitMessage.length == 3)){
-                        splitData = splitMessage[2].split(":");
-                        System.out.println(splitData[1]+" stocks of "+splitData[0]+ " were bought.");
-                        System.out.println("Balance: "+splitData[2]);
+                        System.out.println("Request approved.");
+                        System.out.println("New balance: "+ splitMessage[2]);
                     }else{
                         System.out.println("SELL success reply not recognized");
                     }
@@ -166,7 +164,8 @@ public class Message {
                 case "204": //INFO success
                     if ((splitMessage.length == 3)){
                         splitData = splitMessage[2].split(":");
-                        System.out.println("You have "+splitData[1]+" stocks of "+splitData[0]);
+                        System.out.println("You have "+splitData[1]+" stocks of "+splitData[2]);
+                        System.out.println("Your balance is " + splitData[3] + " EUR.");
                     }else{
                         System.out.println("INFO success reply not recognized");
                     }
@@ -174,15 +173,15 @@ public class Message {
                 case "205": //STKI success
                     if ((splitMessage.length == 3)){
                         splitData = splitMessage[2].split(":");
-                        System.out.println(splitData[0] + " has " + splitData[1] + " at" +
-                                " selling price " + splitData[2]);
+                        System.out.println(splitData[0] + " has " + splitData[1] + " ; worth" +
+                                " " + splitData[2] + " EUR. " + splitData[4] + " are for sale.");
                     }else{
                         System.out.println("INFO success reply not recognized");
                     }
                     break;
                 case "206": //DEPT success
                     if ((splitMessage.length == 3)){
-                        System.out.println("Your account balance is now " + splitMessage[3] + " EUR.");
+                        System.out.println("Your account balance is now " + splitMessage[2] + " EUR.");
                     }else{
                         System.out.println("SELL success reply not recognized");
                     }
