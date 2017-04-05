@@ -38,7 +38,7 @@ public class SE_Client {
             switch (userIn.toUpperCase()) { // user input selection
                 case "HELP": // help prompt
                     System.out.println("The program supports the following commands:");
-                    System.out.println("buy <stockName> <quantity>");
+                    System.out.println("buy <stockName> <quantity> <seller>");
                     System.out.println("sell <stockName> <quantity> <price>");
                     System.out.println("dpst <amount> - deposits money");
                     System.out.println("info <username> - returns user info");

@@ -44,11 +44,12 @@ public class Message {
                         }
                         break;
                     case "BUY": // buy message, payload identical to SELL
-                        if ((splitMessage.length ==3)){
+                        if ((splitMessage.length ==4)){
                             this.msgToSend += "/"+splitMessage[1];
                             if (tryParseInt(splitMessage[2])){
-                                this.msgToSend+=":"+splitMessage[2]+"\r\n";
+                                this.msgToSend+=":"+splitMessage[2];
                             }
+                            this.msgToSend+=":"+splitMessage[3]+"\r\n";
                         }
                         break;
                     case "INFO":
@@ -59,7 +60,7 @@ public class Message {
                                 this.msgToSend += "/"+splitMessage[1]+"\r\n";
                         }
                         break;
-                    case "DPST":
+                    case "DEPT":
                         if ((splitMessage.length ==2)){
                             if (tryParseInt(splitMessage[1])){
                                 this.msgToSend += "/"+splitMessage[1]+"\r\n";
@@ -93,9 +94,7 @@ public class Message {
                     break;
                 case "102": // SELL fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("ERROR")){ // check error codes
                             System.out.println("You might not have enough stocks or there are no such stocks. INFO for info.");
-                        }
                     }else{
                         System.out.println("SELL fail reply not recognized");
                     }
@@ -103,9 +102,7 @@ public class Message {
                     break;
                 case "103": // BUY fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("ERROR")){ // check error codes
                             System.out.println("You might not have enough money or there are no such stocks. INFO for info.");
-                        }
                     }else{
                         System.out.println("BUY fail reply not recognized");
                     }
@@ -113,9 +110,7 @@ public class Message {
                     break;
                 case "104": //INFO fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("ERROR")){ // check error codes
                             System.out.println("Something went wrong.");
-                        }
                     }else{
                         System.out.println("INFO fail reply not recognized");
                     }
@@ -123,9 +118,7 @@ public class Message {
                     break;
                 case "105": //STKI fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("ERROR")){ // check error codes
                             System.out.println("There is probably no such stock.");
-                        }
                     }else{
                         System.out.println("STKI fail reply not recognized");
                     }
@@ -133,9 +126,7 @@ public class Message {
                     break;
                 case "106": //DPST fail
                     if ((splitMessage.length == 3)){
-                        if (splitMessage[2].equals("ERROR")){ // check error codes
                             System.out.println("Operation failed. Try again later.");
-                        }
                     }else{
                         System.out.println("DPST fail reply not recognized");
                     }
@@ -156,7 +147,6 @@ public class Message {
                 case "203": // BUY success
                     if ((splitMessage.length == 3)){
                         System.out.println("Request approved.");
-                        System.out.println("New balance: "+ splitMessage[2]);
                     }else{
                         System.out.println("SELL success reply not recognized");
                     }
@@ -181,7 +171,7 @@ public class Message {
                     break;
                 case "206": //DEPT success
                     if ((splitMessage.length == 3)){
-                        System.out.println("Your account balance is now " + splitMessage[2] + " EUR.");
+                        System.out.println("Deposit successful.");
                     }else{
                         System.out.println("SELL success reply not recognized");
                     }
